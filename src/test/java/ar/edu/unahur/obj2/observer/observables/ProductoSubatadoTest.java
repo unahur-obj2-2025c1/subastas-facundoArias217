@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 //import ar.edu.unahur.obj2.observer.observables.ProductoSubastado;
 import ar.edu.unahur.obj2.observer.observadores.Subastador;
-import ar.edu.unahur.obj2.observer.observadores.SubastadorArriesgado;
 import ar.edu.unahur.obj2.observer.Oferta;
 import ar.edu.unahur.obj2.observer.excepciones.OfertaSubastadorException;
 
@@ -23,9 +22,9 @@ class ProductoSubatadoTest {
     public void setup() {
         delorean = new ProductoSubastado();
 
-        gonzager = new SubastadorArriesgado("gonzager");
-        martomau = new SubastadorArriesgado("martomau");
-        diazdan = new SubastadorArriesgado("diazdan");
+        gonzager = new Subastador("gonzager");
+        martomau = new Subastador("martomau");
+        diazdan = new Subastador("diazdan");
 
         delorean.addObservador(gonzager);
         delorean.addObservador(martomau);

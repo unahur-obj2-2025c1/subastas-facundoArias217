@@ -1,13 +1,22 @@
 package ar.edu.unahur.obj2.observer.observadores;
 import ar.edu.unahur.obj2.observer.Oferta;
+import ar.edu.unahur.obj2.observer.estrategias.Arriesgada;
+import ar.edu.unahur.obj2.observer.estrategias.EstrategiaOferta;
 
-public abstract class Subastador implements Observer {
-    protected String nombre;
-    protected Oferta ultimaOferta;
+public class Subastador implements Observer {
+    private String nombre;
+    private Oferta ultimaOferta;
+    private EstrategiaOferta estrategia;
 
+    public Subastador(String nombre, EstrategiaOferta estrategia) {
+        this.nombre = nombre;
+        this.ultimaOferta = null;
+        this.estrategia = estrategia;
+    }
     public Subastador(String nombre) {
         this.nombre = nombre;
         this.ultimaOferta = null;
+        this.estrategia = new Arriesgada();
     }
 
     public String getNombre() {
@@ -23,22 +32,14 @@ public abstract class Subastador implements Observer {
         this.ultimaOferta = oferta;
     }
 
-    public Double calcularMonto() {
-        var monto = 0.0;
-        if(ultimaOferta != null) {
-            monto = ultimaOferta.getMonto() + 10.0;
-        }
-        else {
-            monto = 10.0; // Si no hay oferta previa, inicia con 10
-        }    
-        return monto;
-    }
-
     public void reset(){
         this.ultimaOferta = null;
     }
 
-    public abstract Oferta crearOferta();
+    public Oferta crearOferta(){
+        Double monto = estrategia.calcularMonto(ultimaOferta);
+        return new Oferta(this, monto);
+    };
 
     @Override
     public void actualizar(Oferta oferta) {
